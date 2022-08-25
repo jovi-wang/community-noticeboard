@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import postService from './postService';
 import { RootState } from '../../app/store';
-import { IPost } from '../../types/interfaces';
+import { IPost, IProfile } from '../../types/interfaces';
 
 const initialState: { posts: IPost[] } = {
   posts: [],
@@ -9,9 +9,12 @@ const initialState: { posts: IPost[] } = {
 
 export const createPost = createAsyncThunk(
   'posts/create',
-  async (postData: string) => {
-    const token = 'hi';
-    return await postService.createPost(postData, token);
+  async (postData: string, thunkAPI) => {
+    const token = thunkAPI.getState() as { profile: { profiles: IProfile[] } };
+    return await postService.createPost(
+      postData,
+      token.profile.profiles[0].profileId
+    );
   }
 );
 

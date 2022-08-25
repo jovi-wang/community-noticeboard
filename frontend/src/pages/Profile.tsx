@@ -5,13 +5,6 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { getProfile, selectProfiles } from '../features/profile/profileSlice';
 import Spinner from '../components/Spinner';
 
-const profile = {
-  avatar: 'https://ui-avatars.com/api/?name=Ee&size=200',
-  name: 'asdf sdfe',
-  hobbies: ['cooking', 'singing', 'reading'],
-  role: 'Mom',
-};
-
 const Profile = () => {
   const { id: profileId } = useParams();
   const profiles = useAppSelector(selectProfiles);
@@ -58,18 +51,21 @@ const Profile = () => {
           <div className='profile-about bg-light p-2'>
             <h2 className='text-primary'>About {profile.name}</h2>
 
-            <p>bio</p>
+            <p>{profile.bio}</p>
 
             <div className='line' />
 
             <h2 className='text-secondary'>Hobbies</h2>
 
             <div className='skills'>
-              {profile.hobbies.map((hobby, index) => (
-                <div key={index} className='p-1'>
-                  <FaCheck /> {hobby}
-                </div>
-              ))}
+              {profile.hobbies
+                .split(',')
+                .splice(0, 4)
+                .map((hobby, index) => (
+                  <div key={index} className='p-1'>
+                    <FaCheck /> {hobby}
+                  </div>
+                ))}
             </div>
           </div>
         </div>

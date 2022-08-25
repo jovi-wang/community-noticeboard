@@ -2,20 +2,26 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FaTwitter, FaInstagram, FaFacebookF } from 'react-icons/fa';
-
-const initialState = {
-  role: '',
-  hobbies: '',
-  bio: '',
-  twitter: '',
-  facebook: '',
-  instagram: '',
-};
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+import {
+  selectProfiles,
+  updateProfile,
+} from '../features/profile/profileSlice';
 
 function EditProfile() {
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
-  const [formData, setFormData] = useState(initialState);
+  const profiles = useAppSelector(selectProfiles);
+  const profile = profiles[0];
+  const dispatch = useAppDispatch();
 
+  const [formData, setFormData] = useState({
+    role: profile.role,
+    hobbies: profile.hobbies,
+    bio: profile.bio,
+    twitter: profile.twitter,
+    facebook: profile.facebook,
+    instagram: profile.instagram,
+  });
   const { hobbies, bio, twitter, facebook, instagram, role } = formData;
 
   const onChange = (
@@ -30,14 +36,26 @@ function EditProfile() {
   };
   const onSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
     if (!role) {
       toast.error('Please enter your role');
     } else if (!hobbies) {
       toast.error('Please enter your hobbies');
+    } else if (!bio) {
+      toast.error('Please enter your bio');
     } else {
       toast.success('Your profile is updated!');
     }
+    dispatch(
+      updateProfile({
+        ...profile,
+        hobbies,
+        bio,
+        twitter,
+        facebook,
+        instagram,
+        role,
+      })
+    );
   };
   return (
     <section className='container'>
@@ -64,21 +82,17 @@ function EditProfile() {
         </div>
 
         <div className='form-group'>
-          <select name='role' onChange={onChange}>
-            <option>* I am a...</option>
-            <option value='Dad'>dad</option>
-            <option value='Mom'>mon</option>
-            <option value='Grandmom'>grandmom</option>
-            <option value='Granddad'>granddad</option>
-            <option value='Boy'>boy</option>
-            <option value='Girl'>girl</option>
-            <option value='Brother'>brother</option>
-            <option value='Sister'>sister</option>
-            <option value='anonymous'>Anonymous</option>
-          </select>
+          <input
+            type='text'
+            placeholder='* role'
+            name='role'
+            value={role}
+            onChange={onChange}
+          />
 
           <small className='form-text'>
-            Tell us what role do you play at home
+            Tell us what role do you play at home (e.g. mon, dad, granddad,
+            grandmom)
           </small>
         </div>
 
@@ -92,21 +106,21 @@ function EditProfile() {
           />
 
           <small className='form-text'>
-            Please use comma separated your hobbies (eg.
+            Please use comma separated your hobbies (e.g.
             Gardening,Reading,Cooking,Fishing)
           </small>
         </div>
 
         <div className='form-group'>
           <textarea
-            placeholder='A short bio of yourself'
+            placeholder='* A short bio of yourself'
             name='bio'
             value={bio}
             onChange={onChange}
           />
 
           <small className='form-text'>
-            Tell us a little about yourself and your family
+            Tell us a little about you and your family
           </small>
         </div>
 

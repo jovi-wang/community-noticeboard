@@ -20,8 +20,9 @@ const Profiles = () => {
 
       <div className='profiles'>
         {profiles.length > 0 ? (
-          profiles.map(({ profileId, avatar, name, hobbies, role }) => (
+          profiles.map(({ profileId, avatar, name, hobbies, role, bio }) => (
             <ProfileItem
+              bio={bio}
               key={profileId}
               profileId={profileId}
               avatar={avatar}

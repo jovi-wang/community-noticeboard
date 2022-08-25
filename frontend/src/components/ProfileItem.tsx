@@ -1,14 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaCheck } from 'react-icons/fa';
-type Props = {
-  avatar: string;
-  name: string;
-  profileId: string;
-  hobbies: string[];
-  role: string;
-};
-const ProfileItem: React.FC<Props> = ({
+import { IProfile } from '../types/interfaces';
+
+const ProfileItem: React.FC<IProfile> = ({
   name,
   avatar,
   profileId,
@@ -30,11 +25,14 @@ const ProfileItem: React.FC<Props> = ({
       </div>
 
       <ul>
-        {hobbies.slice(0, 4).map((hobby, index) => (
-          <li key={index} className='text-secondary'>
-            <FaCheck /> {hobby}
-          </li>
-        ))}
+        {hobbies
+          .split(',')
+          .slice(0, 4)
+          .map((hobby, index) => (
+            <li key={index} className='text-secondary'>
+              <FaCheck /> {hobby}
+            </li>
+          ))}
       </ul>
     </div>
   );

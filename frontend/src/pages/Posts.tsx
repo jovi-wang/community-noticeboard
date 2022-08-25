@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PostItem from '../components/PostItem';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { getPosts, selectPosts, createPost } from '../features/post/postSlice';
+import { selectProfiles } from '../features/profile/profileSlice';
 
 const Posts = () => {
   const [text, setText] = useState('');
   const posts = useAppSelector(selectPosts);
+  const profiles = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getPosts());

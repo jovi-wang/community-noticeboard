@@ -24,7 +24,8 @@ export const updateProfile = createAsyncThunk(
   'profiles/update',
   async (profileData: IProfile) => {
     // const token = thunkAPI.getState().auth.user.token;
-    return await profileService.updateProfile(profileData, 'token');
+    await profileService.updateProfile(profileData, 'token');
+    // return profileData;
   }
 );
 
@@ -48,9 +49,10 @@ export const profileSlice = createSlice({
         }
       });
     // .addCase(updateProfile.fulfilled, (state, action) => {
-    //   state.profiles = state.profiles.filter(
-    //     (profile) => profile.profileId !== action.payload
+    //   const profile = state.profiles.find(
+    //     (p) => p.profileId === action.payload.profileId
     //   );
+    //   console.log(state.profiles);
     // });
   },
 });

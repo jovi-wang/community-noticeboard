@@ -8,8 +8,9 @@ export interface IProfile {
   profileId: string;
   avatar: string;
   name: string;
-  hobbies: string[];
+  hobbies: string;
   role: string;
+  bio: string;
   facebook?: string;
   twitter?: string;
   instagram?: string;
