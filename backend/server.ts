@@ -1,5 +1,7 @@
 import express from 'express';
 import { randomUUID } from 'crypto';
+// import bcrypt from 'bcryptjs';
+// import jwt from 'jsonwebtoken';
 
 const app = express();
 app.use(express.json());
@@ -77,6 +79,7 @@ const profiles = [
     bio: 'Hi everyone, I am a writer and a freelancing a photographer, you can know more about my work by visiting my social media page.',
   },
 ];
+
 app.get('/', (req, res) => {
   console.log('health check');
   res.send();
@@ -132,6 +135,18 @@ app.delete('/posts/:postId', (req, res) => {
   posts = posts.filter((p) => p.postId == postId);
 
   res.status(200).send();
+});
+
+app.post('/users', (req, res) => {
+  const { name, email, password } = req.body;
+  // res.status(400).json({ message: 'invalid credential' });
+  res.json({ name, email, token: 'secret' });
+});
+
+app.post('/users/login', (req, res) => {
+  const { email, password } = req.body;
+  // res.status(400).json({ message: 'invalid credential' });
+  res.json({ name: 'Lisa Ray', email, token: 'secret' });
 });
 
 const port = process.env.PORT || 5000;

@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { login } from '../features/auth/authSlice';
+import { useAppDispatch } from '../app/hooks';
+
 const Login = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -18,7 +26,13 @@ const Login = () => {
   };
   const onSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast.success(`Logged in as ${email}`);
+    dispatch(login({ email, password }))
+      .unwrap()
+      .then(() => {
+        toast.success(`Logged in as ${email}`);
+        navigate('/');
+      })
+      .catch(toast.error);
   };
   return (
     <section className='container'>

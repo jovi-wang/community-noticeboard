@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { selectAuth } from '../features/auth/authSlice';
+import { getPosts } from '../features/post/postSlice';
+import { getProfiles } from '../features/profile/profileSlice';
 
-function Home() {
+const Home = () => {
+  const { user } = useAppSelector(selectAuth);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getPosts());
+    dispatch(getProfiles());
+  }, [dispatch]);
+
   return (
     <section className='landing'>
       <div className='dark-overlay'>
@@ -11,32 +22,37 @@ function Home() {
             Our Community Noticeboard keeps you informed with what is happening
             locally.
           </p>
-
           <div className='buttons'>
-            {/* <Link to='/register' className='btn btn-primary'>
-              Sign Up
-            </Link>
+            {user ? (
+              <>
+                <Link to='/profiles' className='btn btn-primary'>
+                  Connect with locals...
+                </Link>
 
-            <Link to='/login' className='btn'>
-              Login
-            </Link> */}
+                <Link to='/posts' className='btn'>
+                  Share your thoughts...
+                </Link>
 
-            <Link to='/profiles' className='btn btn-primary'>
-              Connect with locals...
-            </Link>
+                <Link to='/me' className='btn btn-dark'>
+                  Edit my profile
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to='/register' className='btn btn-primary'>
+                  Sign Up
+                </Link>
 
-            <Link to='/posts' className='btn'>
-              Share your thoughts...
-            </Link>
-
-            <Link to='/me' className='btn btn-dark'>
-              Edit my profile
-            </Link>
+                <Link to='/login' className='btn'>
+                  Login
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
     </section>
   );
-}
+};
 
 export default Home;

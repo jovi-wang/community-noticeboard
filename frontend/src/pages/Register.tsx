@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { register } from '../features/auth/authSlice';
+import { useAppDispatch } from '../app/hooks';
 
 const Register = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,7 +29,13 @@ const Register = () => {
     if (password !== password2) {
       toast.error('Passwords do not match');
     } else {
-      toast.success(`Registered new user - ${email}`);
+      dispatch(register({ name, email, password }))
+        .unwrap()
+        .then(() => {
+          toast.success(`Registered new user - ${email}`);
+          navigate('/');
+        })
+        .catch(toast.error);
     }
   };
   return (

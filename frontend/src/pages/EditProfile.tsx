@@ -7,11 +7,15 @@ import {
   selectProfiles,
   updateProfile,
 } from '../features/profile/profileSlice';
+import { selectAuth } from '../features/auth/authSlice';
+import { IProfile } from '../types/interfaces';
 
 function EditProfile() {
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
   const profiles = useAppSelector(selectProfiles);
-  const profile = profiles[0];
+  const { user } = useAppSelector(selectAuth);
+
+  const profile = profiles.find((i) => i.name === user!.name) as IProfile;
   const dispatch = useAppDispatch();
 
   const [formData, setFormData] = useState({
@@ -43,19 +47,19 @@ function EditProfile() {
     } else if (!bio) {
       toast.error('Please enter your bio');
     } else {
+      dispatch(
+        updateProfile({
+          ...profile,
+          hobbies,
+          bio,
+          twitter,
+          facebook,
+          instagram,
+          role,
+        })
+      );
       toast.success('Your profile is updated!');
     }
-    dispatch(
-      updateProfile({
-        ...profile,
-        hobbies,
-        bio,
-        twitter,
-        facebook,
-        instagram,
-        role,
-      })
-    );
   };
   return (
     <section className='container'>
@@ -70,13 +74,13 @@ function EditProfile() {
 
       <form className='form' onSubmit={onSubmit}>
         <div className='form-group'>
-          <input type='text' name='username' value='your username' disabled />
+          <input type='text' name='username' value={user!.name} disabled />
 
           <small className='form-text'>This is your username</small>
         </div>
 
         <div className='form-group'>
-          <input type='text' name='email' value='your email address' disabled />
+          <input type='text' name='email' value={user!.email} disabled />
 
           <small className='form-text'>This is your email address</small>
         </div>
@@ -175,7 +179,11 @@ function EditProfile() {
           </>
         )}
 
-        <input type='submit' className='btn btn-primary my-1' />
+        <input
+          aria-label='submit'
+          type='submit'
+          className='btn btn-primary my-1'
+        />
 
         <Link className='btn btn-light my-1' to='/'>
           Go Back

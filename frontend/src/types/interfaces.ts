@@ -23,3 +23,20 @@ export interface IPost {
   avatar: string;
   date: string;
 }
+
+export interface IUser {
+  name?: string;
+  email: string;
+  password: string;
+  token?: string;
+  error?: string;
+}
+
+export interface IError {
+  response?: {
+    data: {
+      message: string;
+    };
+  };
+  message?: string;
+}
