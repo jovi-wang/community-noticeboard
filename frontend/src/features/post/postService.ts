@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IPost } from '../../types/interfaces';
 
-const API_URL = '/posts';
+const API_URL = '/api/posts';
 
 // Create new post
 const createPost = async (postData: string, token: string): Promise<IPost> => {
@@ -11,7 +11,11 @@ const createPost = async (postData: string, token: string): Promise<IPost> => {
     },
   };
 
-  const { data } = await axios.post(API_URL, { text: postData }, config);
+  const { data } = await axios.post(
+    API_URL,
+    { text: postData, date: new Date().toISOString().split('T')[0] },
+    config
+  );
 
   return data as IPost;
 };

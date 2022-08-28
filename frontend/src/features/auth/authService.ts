@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IUser } from '../../types/interfaces';
 
-const API_URL = '/users';
+const API_URL = '/api/users';
 
 const register = async (user: IUser): Promise<IUser> => {
   const { data } = await axios.post(API_URL, user);

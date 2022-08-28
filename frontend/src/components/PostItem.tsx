@@ -12,6 +12,7 @@ const PostItem: React.FC<IPost> = ({
   avatar,
   date,
   profileId,
+  alowDelete,
 }) => {
   const dispatch = useAppDispatch();
   const onDelete = () => {
@@ -31,10 +32,11 @@ const PostItem: React.FC<IPost> = ({
         <p className='my-1'>{text}</p>
 
         <p className='post-date'>Posted on {date}</p>
-
-        <button type='button' className='btn btn-danger' onClick={onDelete}>
-          <FaTimes />
-        </button>
+        {alowDelete && (
+          <button type='button' className='btn btn-danger' onClick={onDelete}>
+            <FaTimes />
+          </button>
+        )}
       </div>
     </div>
   );

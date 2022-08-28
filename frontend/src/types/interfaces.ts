@@ -1,9 +1,3 @@
-export interface IAlert {
-  id: string;
-  alertType: string;
-  msg: string;
-}
-
 export interface IProfile {
   profileId: string;
   avatar: string;
@@ -22,14 +16,16 @@ export interface IPost {
   name: string;
   avatar: string;
   date: string;
+  alowDelete?: boolean;
 }
 
 export interface IUser {
   name?: string;
   email: string;
-  password: string;
+  password?: string;
   token?: string;
   error?: string;
+  profileId?: string;
 }
 
 export interface IError {

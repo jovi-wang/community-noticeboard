@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IProfile } from '../../types/interfaces';
 
-const API_URL = '/profiles';
+const API_URL = '/api/profiles';
 
 // Update profile
 const updateProfile = async (
@@ -13,7 +13,7 @@ const updateProfile = async (
       Authorization: `Bearer ${token}`,
     },
   };
-
+  console.log('line 16', profileData);
   await axios.put(`${API_URL}/${profileData.profileId}`, profileData, config);
 };
 

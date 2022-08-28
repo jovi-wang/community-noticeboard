@@ -23,17 +23,18 @@ const ProfileItem: React.FC<IProfile> = ({
           View Profile
         </Link>
       </div>
-
-      <ul>
-        {hobbies
-          .split(',')
-          .slice(0, 4)
-          .map((hobby, index) => (
-            <li key={index} className='text-secondary'>
-              <FaCheck /> {hobby}
-            </li>
-          ))}
-      </ul>
+      {hobbies && (
+        <ul>
+          {hobbies
+            .split(',')
+            .slice(0, 4)
+            .map((hobby, index) => (
+              <li key={index} className='text-secondary'>
+                <FaCheck /> {hobby}
+              </li>
+            ))}
+        </ul>
+      )}
     </div>
   );
 };

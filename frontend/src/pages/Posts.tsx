@@ -2,16 +2,24 @@ import React, { useEffect, useState } from 'react';
 import PostItem from '../components/PostItem';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { getPosts, selectPosts, createPost } from '../features/post/postSlice';
-import { selectProfiles } from '../features/profile/profileSlice';
+import { getProfiles, selectProfiles } from '../features/profile/profileSlice';
+import { selectAuth } from '../features/auth/authSlice';
 
 const Posts = () => {
   const [text, setText] = useState('');
   const posts = useAppSelector(selectPosts);
   const profiles = useAppSelector(selectProfiles);
+  const { user } = useAppSelector(selectAuth);
+
+  const profileId = user!.profileId;
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getPosts());
-  }, [dispatch]);
+    if (profiles.length === 0) {
+      dispatch(getProfiles());
+    }
+  }, [dispatch, profiles]);
 
   const onSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,6 +62,7 @@ const Posts = () => {
                 name={post.name}
                 avatar={post.avatar}
                 date={post.date}
+                alowDelete={profileId === post.profileId}
               />
             ))
           ) : (

@@ -13,7 +13,7 @@ import Profile from './pages/Profile';
 import Posts from './pages/Posts';
 import NotFound from './pages/NotFound';
 
-function App() {
+const App = () => {
   return (
     <>
       <BrowserRouter>
@@ -32,6 +32,6 @@ function App() {
       <ToastContainer />
     </>
   );
-}
+};
 
 export default App;

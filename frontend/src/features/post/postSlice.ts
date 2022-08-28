@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import postService from './postService';
 import { RootState } from '../../app/store';
-import { IPost, IProfile } from '../../types/interfaces';
+import { IPost, IUser } from '../../types/interfaces';
 
 const initialState: { posts: IPost[] } = {
   posts: [],
@@ -10,24 +10,24 @@ const initialState: { posts: IPost[] } = {
 export const createPost = createAsyncThunk(
   'posts/create',
   async (postData: string, thunkAPI) => {
-    const token = thunkAPI.getState() as { profile: { profiles: IProfile[] } };
-    return await postService.createPost(
-      postData,
-      token.profile.profiles[0].profileId
-    );
+    const { auth } = thunkAPI.getState() as { auth: { user: IUser } };
+    return await postService.createPost(postData, auth.user.token!);
   }
 );
 
-export const getPosts = createAsyncThunk('posts/getAll', async () => {
-  // const token = thunkAPI.getState().auth.user.token;
-  return await postService.getPosts('token');
-});
+export const getPosts = createAsyncThunk(
+  'posts/getAll',
+  async (_, thunkAPI) => {
+    const { auth } = thunkAPI.getState() as { auth: { user: IUser } };
+    return await postService.getPosts(auth.user.token!);
+  }
+);
 
 export const deletePost = createAsyncThunk(
   'posts/delete',
-  async (postId: string) => {
-    // const token = thunkAPI.getState().auth.user.token;
-    await postService.deletePost(postId, 'token');
+  async (postId: string, thunkAPI) => {
+    const { auth } = thunkAPI.getState() as { auth: { user: IUser } };
+    await postService.deletePost(postId, auth.user.token!);
     return postId;
   }
 );

@@ -4,10 +4,13 @@ import { FaTwitter, FaInstagram, FaFacebookF, FaCheck } from 'react-icons/fa';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { getProfile, selectProfiles } from '../features/profile/profileSlice';
 import Spinner from '../components/Spinner';
+import { selectAuth } from '../features/auth/authSlice';
 
 const Profile = () => {
   const { id: profileId } = useParams();
   const profiles = useAppSelector(selectProfiles);
+  const { user } = useAppSelector(selectAuth);
+
   const dispatch = useAppDispatch();
   const profile = profiles.find((p) => p.profileId === profileId);
 
@@ -20,9 +23,11 @@ const Profile = () => {
       <Link to='/profiles' className='btn btn-light'>
         Back to Profiles
       </Link>
-      <Link to='/me' className='btn btn-dark'>
-        Edit Profile
-      </Link>
+      {user!.profileId === profileId && (
+        <Link to='/me' className='btn btn-dark'>
+          Edit Profile
+        </Link>
+      )}
       {!profile ? (
         <Spinner />
       ) : (
@@ -58,14 +63,15 @@ const Profile = () => {
             <h2 className='text-secondary'>Hobbies</h2>
 
             <div className='skills'>
-              {profile.hobbies
-                .split(',')
-                .splice(0, 4)
-                .map((hobby, index) => (
-                  <div key={index} className='p-1'>
-                    <FaCheck /> {hobby}
-                  </div>
-                ))}
+              {profile.hobbies &&
+                profile.hobbies
+                  .split(',')
+                  .splice(0, 4)
+                  .map((hobby, index) => (
+                    <div key={index} className='p-1'>
+                      <FaCheck /> {hobby}
+                    </div>
+                  ))}
             </div>
           </div>
         </div>

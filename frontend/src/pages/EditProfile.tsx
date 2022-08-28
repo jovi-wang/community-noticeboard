@@ -13,19 +13,30 @@ import { IProfile } from '../types/interfaces';
 function EditProfile() {
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
   const profiles = useAppSelector(selectProfiles);
+
   const { user } = useAppSelector(selectAuth);
-
-  const profile = profiles.find((i) => i.name === user!.name) as IProfile;
+  const profile = profiles.find(
+    (i) => i.profileId === user!.profileId
+  ) as IProfile;
   const dispatch = useAppDispatch();
-
-  const [formData, setFormData] = useState({
-    role: profile.role,
-    hobbies: profile.hobbies,
-    bio: profile.bio,
-    twitter: profile.twitter,
-    facebook: profile.facebook,
-    instagram: profile.instagram,
-  });
+  const stateValue = profile
+    ? {
+        role: profile.role,
+        hobbies: profile.hobbies,
+        bio: profile.bio,
+        twitter: profile.twitter,
+        facebook: profile.facebook,
+        instagram: profile.instagram,
+      }
+    : {
+        role: '',
+        hobbies: '',
+        bio: '',
+        twitter: '',
+        facebook: '',
+        instagram: '',
+      };
+  const [formData, setFormData] = useState(stateValue);
   const { hobbies, bio, twitter, facebook, instagram, role } = formData;
 
   const onChange = (

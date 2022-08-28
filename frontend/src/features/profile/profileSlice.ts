@@ -1,31 +1,33 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import profileService from '../profile/profileService';
 import { RootState } from '../../app/store';
-import { IProfile } from '../../types/interfaces';
+import { IProfile, IUser } from '../../types/interfaces';
 
 const initialState: { profiles: IProfile[] } = {
   profiles: [],
 };
 
-export const getProfiles = createAsyncThunk('profiles/getAll', async () => {
-  // const token = thunkAPI.getState().auth.user.token;
-  return await profileService.getProfiles('token');
-});
+export const getProfiles = createAsyncThunk(
+  'profiles/getAll',
+  async (_, thunkAPI) => {
+    const { auth } = thunkAPI.getState() as { auth: { user: IUser } };
+    return await profileService.getProfiles(auth.user.token!);
+  }
+);
 
 export const getProfile = createAsyncThunk(
   'profiles/get',
-  async (id: string) => {
-    // const token = thunkAPI.getState().auth.user.token;
-    return await profileService.getProfile(id, 'token');
+  async (id: string, thunkAPI) => {
+    const { auth } = thunkAPI.getState() as { auth: { user: IUser } };
+    return await profileService.getProfile(id, auth.user.token!);
   }
 );
 
 export const updateProfile = createAsyncThunk(
   'profiles/update',
-  async (profileData: IProfile) => {
-    // const token = thunkAPI.getState().auth.user.token;
-    await profileService.updateProfile(profileData, 'token');
-    // return profileData;
+  async (profileData: IProfile, thunkAPI) => {
+    const { auth } = thunkAPI.getState() as { auth: { user: IUser } };
+    await profileService.updateProfile(profileData, auth.user.token!);
   }
 );
 
