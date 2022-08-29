@@ -11,5 +11,5 @@ export const sequelize = new Sequelize({
   port: 5432,
   dialect: 'postgres',
   storage: ':memory:',
-  models: [User, Post, Profile], // or [Player, Team],
+  models: [User, Post, Profile],
 });

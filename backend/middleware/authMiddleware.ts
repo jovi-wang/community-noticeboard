@@ -16,7 +16,7 @@ export const requireAuth = async (
   }
 
   const token = tokenBearer[1];
-  return jwt.verify(token, process.env.JWT_SECRET, (err) => {
+  return jwt.verify(token, process.env.JWT_SECRET || 'secret_jwt', (err) => {
     if (err) {
       return res.status(500).send({ message: 'Invalid token' });
     }

@@ -30,7 +30,7 @@ export const comparePasswords = async (
 export const generateJWT = (user: User): string => {
   return jwt.sign(
     { email: user.email, profileId: user.profileId },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET || 'secret_jwt'
   );
 };
 

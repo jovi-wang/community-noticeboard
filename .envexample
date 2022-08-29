@@ -1,0 +1,5 @@
+JWT_SECRET = jwt_secret
+POSTGRES_USERNAME = ocaluser
+POSTGRES_PASSWORD = testpassword
+POSTGRES_DB = postgres
+POSTGRES_HOST = localhost
