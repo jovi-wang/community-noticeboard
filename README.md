@@ -30,7 +30,7 @@ dotenv is used to manage env variables, rename the .envexample to .env and updat
 
 ```
 JWT_SECRET = jwt_secret
-POSTGRES_USERNAME = ocaluser
+POSTGRES_USERNAME = localuser
 POSTGRES_PASSWORD = testpassword
 POSTGRES_DB = postgres
 POSTGRES_HOST = localhost
