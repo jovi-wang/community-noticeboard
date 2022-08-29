@@ -27,27 +27,26 @@ export const registerUser = async (req: Request, res: Response) => {
 
   const profileId = randomUUID();
 
-  const [newUser, newProfile] = await Promise.all([
-    new User({
+  await Promise.all([
+    User.create({
       email: String(email),
       passwordHash: generatedHash,
       profileId,
-    } as User),
-    new Profile({
+    }),
+    Profile.create({
       profileId,
       name: String(name),
       avatar: `https://avatars.dicebear.com/api/pixel-art/${name}.svg?size=120`,
-    } as Profile),
+    }),
   ]);
 
-  await Promise.all([newUser.save(), newProfile.save()]);
-  const jwt = generateJWT(newUser);
+  const jwt = generateJWT({ email, profileId } as User);
 
   res.status(201).send({
     token: jwt,
-    name: newProfile.name,
-    email: newUser.email,
-    profileId: newUser.profileId,
+    name,
+    email,
+    profileId,
   });
 };
 

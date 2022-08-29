@@ -85,7 +85,12 @@ describe('full app rendering/navigating to EditProfile', () => {
         <App />
       </Provider>
     );
-
+    await userEvent.type(screen.getByPlaceholderText('* role'), 'mom');
+    await userEvent.type(screen.getByPlaceholderText('* Hobbies'), 'travel');
+    await userEvent.type(
+      screen.getByPlaceholderText('* A short bio of yourself'),
+      'bio'
+    );
     await userEvent.click(screen.getByRole('button', { name: 'submit' }));
   });
 });

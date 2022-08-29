@@ -33,22 +33,20 @@ export const createPost = async (req: Request, res: Response) => {
     return res.status(400).send({ message: 'Please provide all fields' });
   }
   const jwt = req.headers.authorization.split(' ')[1];
-  console.log('line 36', jwt);
   const profileId = extractProfileIdFromJWT(jwt);
 
   const profile = await Profile.findByPk(profileId);
-  console.log('line 39', profileId, profile);
   if (!profile) {
-    return res.status(400).send({ message: 'Invalid token' });
+    return res.status(400).send({ message: 'Invalid auth token' });
   }
   const postId = randomUUID();
-  const newPost = await new Post({
+
+  await Post.create({
     profileId,
     postId,
     date,
     text,
-  } as Post);
-  await newPost.save();
+  });
   res.status(200).send({
     profileId,
     postId,

@@ -39,6 +39,5 @@ export const extractProfileIdFromJWT = (token: string): string => {
     email: string;
     profileId: string;
   };
-  console.log(decoded);
   return decoded.profileId;
 };

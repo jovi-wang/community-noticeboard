@@ -193,6 +193,7 @@ function EditProfile() {
         <input
           aria-label='submit'
           type='submit'
+          value='submit'
           className='btn btn-primary my-1'
         />
 

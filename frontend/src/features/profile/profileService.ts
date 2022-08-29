@@ -13,7 +13,6 @@ const updateProfile = async (
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log('line 16', profileData);
   await axios.put(`${API_URL}/${profileData.profileId}`, profileData, config);
 };
 

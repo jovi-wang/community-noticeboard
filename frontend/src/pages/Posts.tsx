@@ -47,7 +47,12 @@ const Posts = () => {
               required
             />
 
-            <input type='submit' value='Submit' className='btn btn-dark my-1' />
+            <input
+              aria-label='submit'
+              type='submit'
+              value='Submit'
+              className='btn btn-dark my-1'
+            />
           </form>
         </div>
 

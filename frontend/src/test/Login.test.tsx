@@ -54,7 +54,7 @@ describe('full app rendering/navigating to Login', () => {
       'test-password'
     );
   });
-  test('Click Register button', async () => {
+  test('Click Login button', async () => {
     render(
       <Provider store={store}>
         <App />

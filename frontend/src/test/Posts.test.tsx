@@ -40,8 +40,8 @@ const store = configureStore({
     },
   },
 });
-describe('full app rendering/navigating to profiles', () => {
-  test('navigate to profiles', async () => {
+describe('full app rendering/navigating to posts', () => {
+  test('navigate to posts', async () => {
     render(
       <Provider store={store}>
         <App />
@@ -52,5 +52,24 @@ describe('full app rendering/navigating to profiles', () => {
 
     expect(screen.getByText('Community Posts')).toBeInTheDocument();
     expect(screen.getByText('Say Something...')).toBeInTheDocument();
+  });
+  test('show a list of posts', async () => {
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    expect(screen.getByAltText('avatar')).toBeInTheDocument();
+  });
+
+  test('slick submit button', async () => {
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: 'submit' }));
   });
 });
